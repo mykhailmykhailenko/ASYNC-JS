@@ -1,12 +1,13 @@
-/*
-Напишіть функцію, яка виведе на консоль суму перших 10 чисел
-через 15 секунд після оновлення сторінки
-*/
+const h1 = document.querySelector('h1');
 
+const id = setInterval(tick, 1000);
+let counter = 0;
 
-function tick(a){
-    console.log(a);
+function tick(){
+    h1.textContent = ++counter;
 }
 
-
-setTimeout(()=>tick(3), 2000);
+const btn = document.querySelector('button');
+btn.addEventListener('click', function() {
+    clearInterval(id);
+})
