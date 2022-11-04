@@ -6,19 +6,40 @@ executor = function
 */
 
 
-const promise = new Promise(function(resolve, reject){
-    /* if(it`s okay){
-         resolve()
-     } else {
-         reject()
-     }
-     */
+// const promise = new Promise(function(resolve, reject){
+//     /* if(it`s okay){
+//          resolve()
+//      } else {
+//          reject()
+//      }
+//      */
+// });
+
+// ///////////////////
+
+// promise.then(()=>{
+//  ///resolve callback
+// },()=>{
+//  //reject callback
+// })
+
+
+/*
+Створіть новий проміс, який буде викликати resolve, якщо 2+2 === 4
+і reject,якщо ні.
+Навісити обробники через then, які виведуть на консоль результат
+*/
+
+const promise = new Promise (function (resolve, reject) {
+    if ((2+2) === 4) {
+        resolve('TRUE')
+    }else {
+        reject('FALSE')
+    }
 });
 
-///////////////////
-
-promise.then(()=>{
- ///resolve callback
+promise.then((string)=>{
+    console.log ('Resolve:', string)
 },()=>{
- //reject callback
-})
+    console.log ('Reject:', error)
+});
