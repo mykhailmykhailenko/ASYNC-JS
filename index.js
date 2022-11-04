@@ -1,12 +1,20 @@
-const prom = fetch('https://dummyjson.com/products/1');
+const API_BASE = 'https://dummyjson.com/products';
+const root = document.querySelector('#root');
 
-prom
+fetch(API_BASE)
+.then((responce)=>{
+   return responce.json();
+})
 .then((data)=>{
-    console.log('RESOLVE');
+   const liArray = data.products.map(createCard);
+   const ul = document.createElement('ul');
+   ul.append(...liArray);
+   root.append(ul);
 })
-.catch((error)=>{
-    console.log('REJECT');
-})
-.finally(()=>{
-    console.log('But anyway, Im back');
-})
+
+
+function createCard(obj){
+    const li = document.createElement('li');
+    li.append(obj.title);
+    return li;
+}
