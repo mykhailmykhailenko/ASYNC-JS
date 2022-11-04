@@ -5,50 +5,31 @@ Resolve - вирішений (успішний)
 Reject - відхилений (неуспішний)
 */
 
-// const resultOfRequest = fetch('./data.json');
-// console.log(resultOfRequest);
+const resultOfRequest = fetch('./data.json');
 
-// resultOfRequest.then((responce)=>{
-//     console.log('promise ok');
-//     return responce.json();
-// }, (reject)=>{
-//     console.log(reject);
-// }).then((successData)=>{
-//     console.log(successData)
-// },(errorData)=>{
-//     console.log(errorData);
-// })
-
-
-// resultOfRequest
-// .then((responce)=>{
-//     console.log('promise ok');
-//     return responce.json();
-// }).then((successData) => {
-//     console.log(successData);
-// })
-// .catch((reject)=>{
-//     console.log(reject);
-// })
-
-
-/*
-1. Встановити LiveServer
-2. Створити json-файл
-3. Зробити запит на json (піднявши index.html -> LiveServer)
-4. Прийняти відповідь, розпарсити її як json та вивести на консоль
-*/
-
-const result = fetch('./data.json');
-console.log(result)
-
-result
-.then((responce) => {
-    console.log('promise ok')  
-    return responce.json()  
-}).then((successData) => {
-    console.log(successData)
+resultOfRequest
+.then((responce)=>responce.json())
+.then((successData) => {
+    const card = createUserCard(successData);
+    const root = document.querySelector('#root');
+    root.append(card);
 })
-.catch ((reject) => {
-    console.log(reject)
-})
+.catch((reject)=>{
+    console.log(reject);
+});
+
+function createUserCard(user) {
+    const h2 = createElement('h2', {classNames: ['username']}, user.firstName, user.lastName);
+    const p = createElement('p', {}, user.telNum);
+    const div = createElement('div', {classNames: ['card-wrapper']}, h2, p);
+    return div;
+}
+
+
+
+function createElement(type, {classNames=[]}, ...children) {
+    const elem = document.createElement(type);
+    elem.classList.add(...classNames);
+    elem.append(...children);
+    return elem;
+}
