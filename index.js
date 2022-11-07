@@ -1,17 +1,49 @@
-/* async/await */
+const form = document.querySelector('form');
 
-async function loadImage() {
-    try {
-      const responce = await fetch('https');
-     const result = await responce.json();
-     console.log(result);
-    } catch(error) {
-         console.log(error.message);
-     }
-     console.log('Another code')
- }
- 
- 
- const result = loadImage();
- 
- console.log('Sync code');
+const API_BASE = 'https://api.openweathermap.org/data/2.5/weather';
+/*https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}*/
+
+const API_KEY = 'f7c576ba3699bdd0b98ddcf196639992';
+
+form.addEventListener('submit', submitHandler);
+
+
+function submitHandler(event){
+    event.preventDefault();
+    const city = event.target.city.value;
+    const url = `${API_BASE}?q=${city}&appid=${API_KEY}&units=metric&lang=ua`;
+    fetch(url)
+    .then((response)=>{
+        return response.json();
+    })
+    .then((weatherData)=>{
+        clearWidget();
+        const card = createWidget(weatherData);
+        const root = document.querySelector('#root');
+        root.append(card);
+    })
+}
+
+function clearWidget() {
+    const section = document.querySelector('.weather');
+    if(section) {
+        section.remove();
+    }
+    return true;
+}
+
+function createWidget(weatherObj) {
+    const cityName = createElement('h1', {}, 'Місто: ', weatherObj.name);
+    const desription = createElement('h2', {}, 'Хмарність: ', weatherObj.weather[0].description);
+    const temp = createElement('p',{}, 'Температура повітря: ', weatherObj.main.temp);
+    const wind = createElement('p', {}, 'Швидкість вітру: ', weatherObj.wind.speed);
+    const widgetCard = createElement('section', {classNames: ['weather']}, cityName, desription, temp, wind);
+    return widgetCard;
+}
+
+function createElement(type, {classNames=[]}, ...children) {
+    const elem = document.createElement(type);
+    elem.classList.add(...classNames);
+    elem.append(...children);
+    return elem;
+}
